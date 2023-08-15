@@ -1,0 +1,103 @@
+from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtGui import QIcon
+from main import Ui_MainWindow
+from ethernet import EthernetApp
+import sys
+from datagenerate import DataGeneratorApp
+
+class StartSelection():
+    def __init__(self, notify_2, function_list_widget):
+        self. notify_2 = notify_2
+        self.function_list_widget = function_list_widget
+    def startselection(self):
+        selected_item = main.functionList.currentItem()
+        if selected_item:
+            item_text = selected_item.text()
+            if item_text == "CPSW Ethernet":
+                self.startCPSWEthernetFunction()
+            elif item_text == "ICSSG Ethernet":
+                self.startICSSGEthernetFunction()
+            elif item_text =="M.2 SSD":
+                self.startM2SSDFunction()
+            elif item_text =="M.CAN":
+                self.MCANFunction()
+            elif item_text == "FINTEK F81604 CAN":
+                self.FINTEKFunction()
+            elif item_text == " MCP2518 CAN":
+                self.MCPFunction()
+            elif item_text =="FPGA":
+                self.FPGAFunction()
+            elif item_text == "Open GND IN/OUT":
+                self.OpenGNDFunction()
+            elif item_text == "MIL-STD-1553":
+                self.MILSTDFunction()
+            elif item_text == "ARINC-429":
+                self.ArıncFunction()
+            elif item_text =="RS422":
+                self.RS422Function()
+            elif item_text =="USB Storage":
+                self.USBFunction()
+        pass
+    #Functions 
+    def startCPSWEthernetFunction(self):
+        self.notify_2.append("Function > CPSWEthernet Function")
+        # self.data_caller =DataGeneratorApp() 
+        # generate_data = self.data_caller.generate_data()
+        self.ethWindow = EthernetApp()
+        self.ethWindow.show()
+        # self.ethWindow.send_data_over_ethernet
+        # self.ethWindow.show()
+     
+    def startICSSGEthernetFunction(self):
+        self.notify_2.append("Function > ICSSGEthernet Function")
+        # self.data_caller =DataGeneratorApp() 
+        # generate_data = self.data_caller.generate_data()
+        self.ethWindow1 = EthernetApp()
+        self.ethWindow.show()
+        # self.ethWindow1.send_data_over_ethernet(generate_data)
+        # self.ethWindow1.show()
+        
+    def startM2SSDFunction(self):
+        self.notify_2.append("Function > M2 SSD ")
+    def MCANFunction(self):
+        self.notify_2.append("Function > M.CAN ")
+    def FINTEKFunction(self):
+        self.notify_2.append("Function > FINTEK F81604 CAN ") 
+    def MCPFunction(self):
+        self.notify_2.append("Function > MCP2518 CAN ")    
+    def FPGAFunction(self):
+        self.notify_2.append("Function > FPGA ")
+    def OpenGNDFunction(self):
+        self.notify_2.append("Function > Open GND IN/OUT ")
+    def MILSTDFunction(self):
+        self.notify_2.append("Function > MIL-STD-1553")
+    def ArıncFunction(self):
+        self.notify_2.append("Function > ARINC-429")
+    def RS422Function(self):
+        self.notify_2.append("Function > RS422 ")
+    def USBFunction(self):
+        self.notify_2.append("Started : USB Storage ")
+        
+if __name__ == "__main__":
+    app = QtWidgets.QApplication(sys.argv)
+    
+    #Load the application logo icon
+    app_icon = QIcon("logo\logo.png")
+    app.setWindowIcon(app_icon)
+    
+    #main window
+    MainWindow = QtWidgets.QMainWindow()
+    main = Ui_MainWindow()
+    main.setupUi(MainWindow)
+    
+    #generate data window
+    start_data_generate = DataGeneratorApp()
+    main.generateBtn.clicked.connect(start_data_generate.show)
+    
+    #function selection and EthernetApp Side   
+    start_function_instance = StartSelection(main.nofity_2, main.functionList)
+    main.generateDataBtn_2.clicked.connect(start_function_instance.startselection)
+    
+    MainWindow.show()
+    sys.exit(app.exec_())
+    
